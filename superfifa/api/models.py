@@ -1,40 +1,136 @@
+"""
+from __main__ import name
+
+from django.contrib.gis.geoip2.resources import Country
 from django.db import models
-from pygments import highlight
-from pygments.formatters.html import HtmlFormatter
-from pygments.lexers import get_all_lexers, get_lexer_by_name
-from pygments.styles import get_all_styles
+from django.template.defaultfilters import title
+from jenkinsapi_tests.conftest import level
+from lxml.html._diffcommand import description
 
 
-LEXERS = [item for item in get_all_lexers() if item[1]]
-LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
-STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
+class player(models.Model):
+    player_name = models.CharField
+    image_url
+    age = models.IntegerField
+    current_ability = models.DecimalField
+    Potential_ability = models.DecimalField
+    overall_ability = models.DecimalField
+    performance = models.DecimalField
+    happiness = models.DecimalField
+    agency 
+    current_club
+    interested_club
+    current_contract
+    value
+    signing_fee
+    bonus
+    wins
+    three_footballs
+
+class Chairman(models.Model):
+    name 
+    rating 
+    country
+    team_name
+    image_url
+
+class Teams(models.manager):
+    name
+    rating
+    flag_url
+    country
+    
+class League(models.Model):
+    name
+    rating
+    
+class Scout(models.Model):
+    name
+    country
+    rating
+    country_img_url
+    wage/hiring fee
+    image_url
+
+class Coach(models.Model):
+    name
+    type = mental or physical
+    reputation
+    country
+    flag_url
+    wage
+    image_url
+    
+class Office(models.Model):
+    name
+    image_url
+    purchase_cost
+    running_cost
+    player_capacity
+    level
+    rating
+    
+    
+class Journalist(models.Model):
+    name
+    country
+    company foriegnKey
+    image_url
+    
+class News(models.Model):
+    title
+    description
+    journalist
+    news_type = good or bad
+    player
+   
+class UserCurrentTrack(models.Model):
+    user
+    player_list
+    current_mental_coach
+    current_physical_coach
+    current_office
+    upagrade_office_list
+    current_scout_list
+    base_commission
+    transfer_commission
+    sponsiorship _commission
+    miscellanious_income
+    miscellanious_expences
+    staff_wage
+    scout_hire_time
+    scout_hire_duration
+    physical_coach_hire_time
+    physical_coach_hire_duration
+    mental_coach_hire_time
+    mental_coach_hire_duration
+    current_week
+    agency_reputation
+    news_feed
+    negotiations
+    journalist_interactions
+    mail_box
+
+        
 
 
-class Snippet(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=100, blank=True, default='')
-    code = models.TextField()
-    linenos = models.BooleanField(default=False)
-    language = models.CharField(
-        choices=LANGUAGE_CHOICES, default='python', max_length=100)
-    style = models.CharField(choices=STYLE_CHOICES,
-                             default='friendly', max_length=100)
-    owner = models.ForeignKey(
-        'auth.User', related_name='snippets', on_delete=models.CASCADE)
-    highlighted = models.TextField()
 
-    def save(self, *args, **kwargs):
-        """
-        Use the `pygments` library to create a highlighted HTML
-        representation of the code snippet.
-        """
-        lexer = get_lexer_by_name(self.language)
-        linenos = self.linenos and 'table' or False
-        options = self.title and {'title': self.title} or {}
-        formatter = HtmlFormatter(style=self.style, linenos=linenos,
-                                  full=True, **options)
-        self.highlighted = highlight(self.code, lexer, formatter)
-        super(Snippet, self).save(*args, **kwargs)
 
-    class Meta:
-        ordering = ('created',)
+
+
+
+
+
+login
+getUserData
+getPlayerList
+releasePlayer
+
+
+
+
+
+
+
+
+"""

@@ -1,40 +1,72 @@
 from django.contrib.auth.models import User
-from rest_framework import permissions, reverse, renderers, viewsets
-from rest_framework.decorators import api_view, detail_route
+from django.core.exceptions import PermissionDenied
+from rest_framework import viewsets, mixins
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from ml.test_predict import get_prediction
-from models import Snippet
-from permissions import IsOwnerOrReadOnly
-from serializers import SnippetSerializer
 from serializers import UserSerializer
 
 
-class SnippetViewSet(viewsets.ModelViewSet):
+class UserCreateViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """
-    This viewset automatically provides `list`, `create`, `retrieve`,
-    `update` and `destroy` actions.
+        Service User Register 
 
-    Additionally we also provide an extra `highlight` action.
+        ------------
+        TODO: Implement it later
     """
-    queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
 
-    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
-    def highlight(self, request, *args, **kwargs):
-        snippet = self.get_object()
-        return Response(snippet.highlighted)
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
-
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    This viewset automatically provides `list` and `detail` actions.
-    """
-    get_prediction()
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class UserDetailViewSet(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+        Service User deactivate 
+
+        ------------
+        TODO: Implement it later
+
+        Service User activate 
+
+        ------------
+        TODO: Implement it later
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserLoginView(APIView):
+
+    def get_object(self, username, email):
+        try:
+            return User.objects.get(username=username, email=email)
+        except User.DoesNotExist:
+            raise PermissionDenied
+
+    def post(self, request, format=None):
+        serializer = UserSerializer(request.data)
+        user = self.get_object(
+            serializer['username'].value, serializer['email'].value)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+
+"""
+    Service User login 
+ 
+    ------------
+    TODO: Implement it later
+"""
+
+"""
+    Service Get My Player List  
+ 
+    ------------
+    TODO: Implement it later
+"""
+"""
+    Service Release My Player 
+ 
+    ------------
+    TODO: Implement it later
+"""

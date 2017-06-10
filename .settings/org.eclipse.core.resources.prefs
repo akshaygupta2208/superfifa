@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
-encoding//env/lib/python2.7/site-packages/pygments/plugin.py=utf-8
-encoding//env/lib/python2.7/site-packages/pygments/styles/__init__.py=utf-8
+encoding//superfifa/api/admin.py=utf-8
+encoding//superfifa/api/apps.py=utf-8
 encoding//superfifa/api/models.py=utf-8
+encoding//superfifa/api/tests.py=utf-8
 encoding//superfifa/api/views.py=utf-8
