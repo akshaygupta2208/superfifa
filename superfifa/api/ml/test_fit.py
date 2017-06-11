@@ -23,7 +23,7 @@ Y = array[:, 8]
 #model = tree.DecisionTreeClassifier(criterion='gini')
 # model = tree.DecisionTreeRegressor()  # for regression
 model = RandomForestClassifier(
-    n_estimators=10, n_jobs=-1)  # for random forest
+    n_estimators=100, n_jobs=-1)  # for random forest
 scores = cross_val_score(model, X, Y)
 print scores.mean()
 # Train the model using the training sets and check score

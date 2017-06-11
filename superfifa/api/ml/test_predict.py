@@ -16,5 +16,5 @@ def get_prediction():
         # save in django memory cache
         cache.set(model_cache_key, model, None)
     print "loaded model"
-    prediction = model.predict([2, 174, 88, 37, 120, 44.5, 0.646, 40])
+    prediction = model.predict([2, 106, 56, 27, 165, 29.0, 0.426, 22])
     print prediction

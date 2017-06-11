@@ -1,89 +1,108 @@
-"""
-from __main__ import name
-
-from django.contrib.gis.geoip2.resources import Country
 from django.db import models
-from django.template.defaultfilters import title
-from jenkinsapi_tests.conftest import level
-from lxml.html._diffcommand import description
+from django.db.models.fields.related import ForeignKey
+from django_countries.fields import CountryField
 
 
-class player(models.Model):
-    player_name = models.CharField
-    image_url
+class League(models.Model):
+    name = models.CharField
+    rating = models.DecimalField
+    image_url = models.CharField
+
+
+class Team(models.Model):
+    name = models.CharField
+    rating = models.DecimalField
+    image_url = models.CharField
+    country = CountryField()
+    league = models.ForeignKey(
+        League, on_delete=models.SET_NULL, blank=True, null=True)
+
+
+class Chairman(models.Model):
+    name = models.CharField
+    rating = models.DecimalField
+    country = CountryField()
+    team = models.OneToOneField(
+        Team, on_delete=models.SET_NULL, blank=True, null=True)
+    image_url = models.CharField
+
+
+class Scout(models.Model):
+    name = models.CharField
+    country = CountryField()
+    rating = models.DecimalField
+    image_url = models.CharField
+    hiring_fee = models.IntegerField
+    image_url = models.CharField
+
+
+class Coach(models.Model):
+    CHOACH_TYPE = (
+        ('M', 'MENTAL'),
+        ('P', 'PHYSICAL'),
+    )
+    name = models.CharField
+    type = models.CharField(max_length=2, choices=CHOACH_TYPE)
+    reputation = models.DecimalField
+    country = CountryField()
+    flag_url = models.CharField
+    image_url = models.CharField
+    wage = models.IntegerField
+
+
+class Office(models.Model):
+    name = models.CharField
+    image_url = models.CharField
+    purchase_cost = models.IntegerField
+    running_cost = models.IntegerField
+    player_capacity = models.IntegerField
+    level = models.IntegerField
+    rating = models.DecimalField
+
+
+class Player(models.Model):
+    name = models.CharField
+    image_url = models.CharField
     age = models.IntegerField
     current_ability = models.DecimalField
     Potential_ability = models.DecimalField
     overall_ability = models.DecimalField
     performance = models.DecimalField
     happiness = models.DecimalField
-    agency 
-    current_club
-    interested_club
-    current_contract
-    value
-    signing_fee
-    bonus
-    wins
-    three_footballs
+    #agency = models.CharField
+    #current_club = models.CharField
+    #interested_club = models.CharField
+    current_contract = models.IntegerField
+    value = models.IntegerField
+    bonus = models.IntegerField
+    wins = models.IntegerField
+    # three_footballs
 
-class Chairman(models.Model):
-    name 
-    rating 
-    country
-    team_name
-    image_url
 
-class Teams(models.manager):
-    name
-    rating
-    flag_url
-    country
-    
-class League(models.Model):
-    name
-    rating
-    
-class Scout(models.Model):
-    name
-    country
-    rating
-    country_img_url
-    wage/hiring fee
-    image_url
+class MediaCompany(models.Model):
+    name = models.CharField
 
-class Coach(models.Model):
-    name
-    type = mental or physical
-    reputation
-    country
-    flag_url
-    wage
-    image_url
-    
-class Office(models.Model):
-    name
-    image_url
-    purchase_cost
-    running_cost
-    player_capacity
-    level
-    rating
-    
-    
+
 class Journalist(models.Model):
-    name
-    country
-    company foriegnKey
-    image_url
-    
+    name = models.CharField
+    country = CountryField()
+    company = models.OneToOneField(MediaCompany, on_delete=models.CASCADE)
+    image_url = models.CharField
+
+
 class News(models.Model):
-    title
-    description
-    journalist
-    news_type = good or bad
-    player
-   
+    NEWS_TYPE = (
+        ('G', 'GOOD'),
+        ('B', 'BAD'),
+    )
+    title = models.CharField
+    description = models.TextField
+    journalist = ForeignKey(Journalist, on_delete=models.CASCADE)
+    news_type = models.CharField(max_length=1, choices=NEWS_TYPE)
+    player = ForeignKey(Player, on_delete=models.CASCADE)
+
+
+"""
 class UserCurrentTrack(models.Model):
     user
     player_list

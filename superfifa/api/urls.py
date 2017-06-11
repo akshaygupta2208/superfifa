@@ -1,4 +1,3 @@
-
 from django.conf.urls import url, include
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.routers import DefaultRouter
@@ -16,9 +15,8 @@ router.register(r'user_details', views.UserDetailViewSet,
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.
 urlpatterns = [
-
-    url(r'^', include(router.get_urls())),
+    url(r'^api_root$', views.APIRoot.as_view()),
+    url(r'', include(router.get_urls())),
     url(r'user_login$', csrf_exempt(views.UserLoginView.as_view())),
-    #url(r'user/(?P<pk>[0-9]+)/$', views.UserDetailViewSet.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
