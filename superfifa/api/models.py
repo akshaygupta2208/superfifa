@@ -8,6 +8,9 @@ class League(models.Model):
     rating = models.IntegerField()
     image_url = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
@@ -16,6 +19,9 @@ class Team(models.Model):
     country = CountryField()
     league = models.ForeignKey(
         League, on_delete=models.SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Chairman(models.Model):
@@ -26,6 +32,9 @@ class Chairman(models.Model):
         Team, on_delete=models.SET_NULL, blank=True, null=True)
     image_url = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Scout(models.Model):
     name = models.CharField(max_length=255)
@@ -34,6 +43,9 @@ class Scout(models.Model):
     image_url = models.CharField(max_length=255)
     hiring_fee = models.IntegerField()
     image_url = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Coach(models.Model):
@@ -49,6 +61,9 @@ class Coach(models.Model):
     image_url = models.CharField(max_length=255)
     wage = models.IntegerField()
 
+    def __str__(self):
+        return self.name
+
 
 class Office(models.Model):
     name = models.CharField(max_length=255)
@@ -58,6 +73,9 @@ class Office(models.Model):
     player_capacity = models.IntegerField()
     level = models.IntegerField()
     rating = models.IntegerField()
+
+    def __str__(self):
+        return self.name
 
 
 class Player(models.Model):
@@ -80,9 +98,15 @@ class Player(models.Model):
     wins = models.IntegerField()
     # three_footballs
 
+    def __str__(self):
+        return self.name
+
 
 class MediaCompany(models.Model):
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Journalist(models.Model):
@@ -90,6 +114,9 @@ class Journalist(models.Model):
     country = CountryField()
     company = models.OneToOneField(MediaCompany, on_delete=models.CASCADE)
     image_url = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class News(models.Model):
@@ -102,6 +129,9 @@ class News(models.Model):
     journalist = ForeignKey(Journalist, on_delete=models.CASCADE)
     news_type = models.CharField(max_length=1, choices=NEWS_TYPE)
     player = ForeignKey(Player, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
 
 
 """
