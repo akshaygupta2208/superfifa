@@ -42,7 +42,6 @@ class Scout(models.Model):
     rating = models.IntegerField()
     image_url = models.CharField(max_length=255)
     hiring_fee = models.IntegerField()
-    image_url = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
@@ -83,7 +82,7 @@ class Player(models.Model):
     image_url = models.CharField(max_length=255)
     age = models.IntegerField()
     current_ability = models.IntegerField()
-    Potential_ability = models.IntegerField()
+    potential_ability = models.IntegerField()
     overall_ability = models.IntegerField()
     performance = models.IntegerField()
     happiness = models.IntegerField()
