@@ -1,39 +1,39 @@
 from django.db import models
-from django.db.models.fields.related import ForeignKey
+from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django_countries.fields import CountryField
 
 
 class League(models.Model):
-    name = models.CharField
-    rating = models.DecimalField
-    image_url = models.CharField
+    name = models.CharField(max_length=255)
+    rating = models.IntegerField()
+    image_url = models.CharField(max_length=255)
 
 
 class Team(models.Model):
-    name = models.CharField
-    rating = models.DecimalField
-    image_url = models.CharField
+    name = models.CharField(max_length=255)
+    rating = models.IntegerField()
+    image_url = models.CharField(max_length=255)
     country = CountryField()
     league = models.ForeignKey(
         League, on_delete=models.SET_NULL, blank=True, null=True)
 
 
 class Chairman(models.Model):
-    name = models.CharField
-    rating = models.DecimalField
+    name = models.CharField(max_length=255)
+    rating = models.IntegerField()
     country = CountryField()
     team = models.OneToOneField(
         Team, on_delete=models.SET_NULL, blank=True, null=True)
-    image_url = models.CharField
+    image_url = models.CharField(max_length=255)
 
 
 class Scout(models.Model):
-    name = models.CharField
+    name = models.CharField(max_length=255)
     country = CountryField()
-    rating = models.DecimalField
-    image_url = models.CharField
-    hiring_fee = models.IntegerField
-    image_url = models.CharField
+    rating = models.IntegerField()
+    image_url = models.CharField(max_length=255)
+    hiring_fee = models.IntegerField()
+    image_url = models.CharField(max_length=255)
 
 
 class Coach(models.Model):
@@ -41,53 +41,55 @@ class Coach(models.Model):
         ('M', 'MENTAL'),
         ('P', 'PHYSICAL'),
     )
-    name = models.CharField
+    name = models.CharField(max_length=255)
     type = models.CharField(max_length=2, choices=CHOACH_TYPE)
-    reputation = models.DecimalField
+    reputation = models.IntegerField()
     country = CountryField()
-    flag_url = models.CharField
-    image_url = models.CharField
-    wage = models.IntegerField
+    flag_url = models.CharField(max_length=255)
+    image_url = models.CharField(max_length=255)
+    wage = models.IntegerField()
 
 
 class Office(models.Model):
-    name = models.CharField
-    image_url = models.CharField
-    purchase_cost = models.IntegerField
-    running_cost = models.IntegerField
-    player_capacity = models.IntegerField
-    level = models.IntegerField
-    rating = models.DecimalField
+    name = models.CharField(max_length=255)
+    image_url = models.CharField(max_length=255)
+    purchase_cost = models.IntegerField()
+    running_cost = models.IntegerField()
+    player_capacity = models.IntegerField()
+    level = models.IntegerField()
+    rating = models.IntegerField()
 
 
 class Player(models.Model):
-    name = models.CharField
-    image_url = models.CharField
-    age = models.IntegerField
-    current_ability = models.DecimalField
-    Potential_ability = models.DecimalField
-    overall_ability = models.DecimalField
-    performance = models.DecimalField
-    happiness = models.DecimalField
-    #agency = models.CharField
-    #current_club = models.CharField
-    #interested_club = models.CharField
-    current_contract = models.IntegerField
-    value = models.IntegerField
-    bonus = models.IntegerField
-    wins = models.IntegerField
+    name = models.CharField(max_length=255)
+    image_url = models.CharField(max_length=255)
+    age = models.IntegerField()
+    current_ability = models.IntegerField()
+    Potential_ability = models.IntegerField()
+    overall_ability = models.IntegerField()
+    performance = models.IntegerField()
+    happiness = models.IntegerField()
+    agency = models.CharField(max_length=255)
+    current_club = ForeignKey(
+        Team, on_delete=models.SET_NULL, blank=True, null=True)
+    interested_club = ManyToManyField(
+        Team, related_name="%(app_label)s_%(class)s_related")
+    current_contract = models.IntegerField()
+    value = models.IntegerField()
+    bonus = models.IntegerField()
+    wins = models.IntegerField()
     # three_footballs
 
 
 class MediaCompany(models.Model):
-    name = models.CharField
+    name = models.CharField(max_length=255)
 
 
 class Journalist(models.Model):
-    name = models.CharField
+    name = models.CharField(max_length=255)
     country = CountryField()
     company = models.OneToOneField(MediaCompany, on_delete=models.CASCADE)
-    image_url = models.CharField
+    image_url = models.CharField(max_length=255)
 
 
 class News(models.Model):
@@ -95,8 +97,8 @@ class News(models.Model):
         ('G', 'GOOD'),
         ('B', 'BAD'),
     )
-    title = models.CharField
-    description = models.TextField
+    title = models.CharField(max_length=255)
+    description = models.TextField()
     journalist = ForeignKey(Journalist, on_delete=models.CASCADE)
     news_type = models.CharField(max_length=1, choices=NEWS_TYPE)
     player = ForeignKey(Player, on_delete=models.CASCADE)
