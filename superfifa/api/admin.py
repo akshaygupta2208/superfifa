@@ -9,7 +9,6 @@ from models import *
 admin.site.register(League)
 admin.site.register(Team)
 admin.site.register(Chairman)
-admin.site.register(League)
 admin.site.register(Scout)
 admin.site.register(Coach)
 admin.site.register(Office)
