@@ -5,7 +5,7 @@ from django_countries.fields import CountryField
 
 class League(models.Model):
     name = models.CharField(max_length=255)
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=0)
     image_url = models.CharField(max_length=255)
 
     def __str__(self):
@@ -14,7 +14,7 @@ class League(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=0)
     image_url = models.CharField(max_length=255)
     country = CountryField()
     league = models.ForeignKey(
@@ -26,8 +26,7 @@ class Team(models.Model):
 
 class Chairman(models.Model):
     name = models.CharField(max_length=255)
-    rating = models.IntegerField()
-    country = CountryField()
+    rating = models.IntegerField(default=0)
     team = models.OneToOneField(
         Team, on_delete=models.SET_NULL, blank=True, null=True)
     image_url = models.CharField(max_length=255)
@@ -39,9 +38,10 @@ class Chairman(models.Model):
 class Scout(models.Model):
     name = models.CharField(max_length=255)
     country = CountryField()
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=0)
     image_url = models.CharField(max_length=255)
-    hiring_fee = models.IntegerField()
+    hiring_fee = models.IntegerField(default=0)
+    transfer_fee = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -54,11 +54,12 @@ class Coach(models.Model):
     )
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=2, choices=CHOACH_TYPE)
-    reputation = models.IntegerField()
+    reputation = models.IntegerField(default=0)
     country = CountryField()
     flag_url = models.CharField(max_length=255)
     image_url = models.CharField(max_length=255)
-    wage = models.IntegerField()
+    wage = models.IntegerField(default=0)
+    transfer_fee = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -67,11 +68,11 @@ class Coach(models.Model):
 class Office(models.Model):
     name = models.CharField(max_length=255)
     image_url = models.CharField(max_length=255)
-    purchase_cost = models.IntegerField()
-    running_cost = models.IntegerField()
-    player_capacity = models.IntegerField()
-    level = models.IntegerField()
-    rating = models.IntegerField()
+    purchase_cost = models.IntegerField(default=0)
+    running_cost = models.IntegerField(default=0)
+    player_capacity = models.IntegerField(default=0)
+    level = models.IntegerField(default=0)
+    rating = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -80,22 +81,20 @@ class Office(models.Model):
 class Player(models.Model):
     name = models.CharField(max_length=255)
     image_url = models.CharField(max_length=255)
-    age = models.IntegerField()
-    current_ability = models.IntegerField()
-    potential_ability = models.IntegerField()
-    overall_ability = models.IntegerField()
-    performance = models.IntegerField()
-    happiness = models.IntegerField()
+    age = models.IntegerField(default=0)
+    current_ability = models.IntegerField(default=0)
+    potential_ability = models.IntegerField(default=0)
+    overall_ability = models.IntegerField(default=0)
+    performance = models.IntegerField(default=0)
+    happiness = models.IntegerField(default=0)
     agency = models.CharField(max_length=255)
     current_club = ForeignKey(
         Team, on_delete=models.SET_NULL, blank=True, null=True)
     interested_club = ManyToManyField(
         Team, related_name="%(app_label)s_%(class)s_related")
-    current_contract = models.IntegerField()
-    value = models.IntegerField()
-    bonus = models.IntegerField()
-    wins = models.IntegerField()
-    # three_footballs
+    current_contract = models.IntegerField(default=0)
+    value = models.IntegerField(default=0)
+    salary = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -126,8 +125,9 @@ class News(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     journalist = ForeignKey(Journalist, on_delete=models.CASCADE)
-    news_type = models.CharField(max_length=1, choices=NEWS_TYPE)
+    news_type = models.CharField(max_length=2, choices=NEWS_TYPE)
     player = ForeignKey(Player, on_delete=models.CASCADE)
+    news_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.title
