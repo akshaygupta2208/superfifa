@@ -7,8 +7,6 @@ from views import *
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
-router.register(r'create_user', UserCreateViewSet,
-                base_name='create_user')
 router.register(r'user_details', UserDetailViewSet,
                 base_name='user_details')
 
@@ -46,8 +44,7 @@ router.register(r'news', NewsViewSet,
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.
 urlpatterns = [
-    url(r'^api_root$', APIRoot.as_view()),
     url(r'', include(router.get_urls())),
-    url(r'user_login$', csrf_exempt(UserLoginView.as_view())),
+    url(r'user-login/', csrf_exempt(UserLoginView.as_view())),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
