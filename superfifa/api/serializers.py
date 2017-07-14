@@ -11,29 +11,31 @@ class UserSerializer(serializers.ModelSerializer):
                   'first_name', 'last_name', 'is_active')
 
 
-class LeagueSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = League
-        fields = ('id', 'name', 'rating', 'image_url')
-
-
-class TeamSerializer(serializers.ModelSerializer):
-    league = LeagueSerializer(read_only=True)
-    country = serializers.ReadOnlyField(source='country.name')
-
-    class Meta:
-        model = Team
-        fields = ('id', 'name', 'rating', 'image_url',
-                  'country', 'league')
-
-
 class ChairmanSerializer(serializers.ModelSerializer):
-    team = TeamSerializer(read_only=True)
+#    team = TeamSerializer(read_only=True)
 
     class Meta:
         model = Chairman
+        fields = ('id', 'name', 'rating', 'image_url')
+
+class TeamSerializer(serializers.ModelSerializer):
+    league = serializers.ReadOnlyField(source='league.name')
+    country = serializers.ReadOnlyField(source='country.name')
+    chairman = ChairmanSerializer(read_only=True)
+    class Meta:
+        model = Team
         fields = ('id', 'name', 'rating', 'image_url',
-                  'country', 'team')
+                  'country', 'league', 'chairman')
+
+
+class LeagueSerializer(serializers.ModelSerializer):
+    teams = TeamSerializer(source='team_set', many=True, read_only=True)
+    class Meta:
+        model = League
+        fields = ('id', 'name', 'rating', 'image_url', 'teams')
+
+
+
 
 
 class ScoutSerializer(serializers.ModelSerializer):

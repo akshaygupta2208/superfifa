@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django_countries.fields import CountryField
+from django.contrib.auth.models import User
 
 
 class League(models.Model):
@@ -133,12 +134,39 @@ class News(models.Model):
         return self.title
 
 
-"""
+class Chat(models.Model):
+    pass
+
+
 class UserCurrentTrack(models.Model):
-    user
-    player_list
-    current_mental_coach
-    current_physical_coach
+    user  = models.OneToOneField(User, on_delete=models.CASCADE)
+    player_list   = models.TextField()
+    current_mental_coach = models.TextField()
+    current_physical_coach = models.TextField()
+    current_office = models.TextField()
+    upagrade_office_list = models.TextField()
+    current_scout_list = models.TextField()
+    base_commission = models.TextField()
+    transfer_commission = models.TextField()
+    sponsiorship_commission = models.TextField()
+    miscellanious_income = models.TextField()
+    miscellanious_expences = models.TextField()
+    staff_wage = models.TextField()
+    scout_hire_time = models.TextField()
+    scout_hire_duration = models.TextField()
+    physical_coach_hire_time = models.TextField()
+    physical_coach_hire_duration = models.TextField()
+    mental_coach_hire_time = models.TextField()
+    mental_coach_hire_duration = models.TextField()
+    current_week = models.TextField()
+    agency_reputation = models.TextField()
+    news_feed = models.TextField()
+    negotiations = models.TextField()
+    journalist_interactions = models.TextField()
+    mail_box = models.TextField()
+
+    """
+    
     current_office
     upagrade_office_list
     current_scout_list
@@ -160,8 +188,6 @@ class UserCurrentTrack(models.Model):
     negotiations
     journalist_interactions
     mail_box
-
-        
 
 
 

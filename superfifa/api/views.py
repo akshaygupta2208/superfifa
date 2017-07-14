@@ -1,16 +1,14 @@
-
-
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.http.response import JsonResponse
 from rest_framework import viewsets, mixins, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ml.test_predict import get_prediction
 from models import *
 from serializers import *
 from services import userLoginService
-from django.http.response import JsonResponse
+
 
 class UserDetailViewSet(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
@@ -124,6 +122,8 @@ class NewsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = News.objects.all()
     serializer_class = NewsSerializer
+
+
 
 
 """
