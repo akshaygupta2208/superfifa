@@ -31,7 +31,9 @@ class UserLoginView(APIView):
         request format : 
         {
         "username": "someusername",
-        "email": "someemail"
+        "email": "someemail",
+        "first_name": "firstname",
+        "last_name": "lastname"
         }
     """
     def post(self, request, format=None):
