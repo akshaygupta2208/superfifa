@@ -25,12 +25,11 @@ SECRET_KEY = '7(w!q+6$w!7@sn*%yafs0rtwjht4bmv)dfttk7ff8znlhzj0=('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
-
 # Application definition
 
 INSTALLED_APPS = [

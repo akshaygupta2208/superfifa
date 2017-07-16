@@ -69,7 +69,7 @@ class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = ('id', 'name', 'image_url', 'age', 'current_ability', 'potential_ability', 'overall_ability', 'performance',
-                  'happiness', 'agency', 'current_club', 'interested_club', 'current_contract', 'value', 'bonus', 'wins')
+                  'happiness', 'agency', 'current_club', 'interested_club', 'current_contract', 'value')
 
 
 class MediaCompanySerializer(serializers.ModelSerializer):
@@ -95,3 +95,18 @@ class NewsSerializer(serializers.ModelSerializer):
         model = News
         fields = ('id', 'title', 'description',
                   'news_type', 'journalist', 'player')
+
+class UserPlayerSerializer(serializers.ModelSerializer):
+    player_list = PlayerSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = UserCurrentTrack
+        fields = ('user','player_list',)
+        
+        
+class PlayerCRUDSerializer(serializers.Serializer):
+    user = serializers.IntegerField(required=True)
+    player_list = serializers.ListField(required=True)
+    
+    
+    

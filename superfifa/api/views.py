@@ -1,13 +1,15 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http.response import JsonResponse
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, mixins, generics
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from models import *
 from serializers import *
-from services import userLoginService
+from services import *
 
 
 class UserDetailViewSet(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -42,9 +44,6 @@ class UserLoginView(APIView):
         
         return JsonResponse(response)
     
-    
-        #return Response(response)
-
 
 class LeagueViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -125,15 +124,26 @@ class NewsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
 
-
-
-
-"""
-    Service Get My Player List  
- 
-    ------------
-    TODO: Implement it later
-"""
+class UserPlayerListViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    A simple ViewSet for viewing PlayerList.
+    """
+    queryset = UserCurrentTrack.objects.all()
+    serializer_class = UserPlayerSerializer
+    
+class ReleasePlayerView(APIView):
+    """
+        Service Release Player 
+        -------------------
+        This Api can be used to release a player from agency use options to see the api end points
+        -------------------
+        request format : 
+        {"user":1,"player_list":[1,3,4]}
+    """
+    def post(self, request, format=None):
+        players_crud_serializer = PlayerCRUDSerializer(request.data)
+        response = releasePlayerService(players_crud_serializer)
+        return JsonResponse(response)
 """
     Service Release My Player 
  

@@ -4,7 +4,6 @@ from rest_framework.routers import DefaultRouter
 
 from views import *
 
-
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
 router.register(r'user_details', UserDetailViewSet,
@@ -39,12 +38,13 @@ router.register(r'journalist', JournalistViewSet,
 
 router.register(r'news', NewsViewSet,
                 base_name='news')
-
-
+#router.register(r'player-list/(\d+)/$', UserPlayerListViewSet, base_name='user-player-list')
+router.register(r'player-list', UserPlayerListViewSet, base_name='user-player-list')
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.
 urlpatterns = [
     url(r'', include(router.get_urls())),
-    url(r'user-login/', csrf_exempt(UserLoginView.as_view())),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'user-login', csrf_exempt(UserLoginView.as_view())),
+    url(r'release-player$', csrf_exempt(ReleasePlayerView.as_view())),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
