@@ -10,6 +10,8 @@ from rest_framework.views import APIView
 from models import *
 from serializers import *
 from services import *
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from rest_framework.settings import api_settings
 
 
 class UserDetailViewSet(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -144,9 +146,37 @@ class ReleasePlayerView(APIView):
         players_crud_serializer = PlayerCRUDSerializer(request.data)
         response = releasePlayerService(players_crud_serializer)
         return JsonResponse(response)
-"""
-    Service Release My Player 
- 
-    ------------
-    TODO: Implement it later
-"""
+
+class ChatView(APIView):
+    """
+        Service Release Player 
+        -------------------
+        This Api can be used to get chat response use options to see the api end points
+        -------------------
+        request format : 
+        {"user":1,"player_list":[1,3,4]}
+    """
+    def post(self, request, format=None):
+        user_chat_serializer = UserChatSerializer(request.data)
+        response = chatService(user_chat_serializer)
+        return JsonResponse(response)
+
+class ChatLogView(APIView):
+    """
+        Service Chat Logs 
+        -------------------
+        This Api can be used to get chat logs use options to see the api end points
+        -------------------
+        request format : 
+        {"user":4,"type_id":1, "type":"player"}
+    """
+    def post(self, request, format=None):
+        chat_log_serializer = ChatLogDTOSerializer(data = request.data)
+        chat_log = ChatLogService(chat_log_serializer)
+        pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
+        paginator = pagination_class()
+        page = paginator.paginate_queryset(chat_log, request)
+        serializer = ChatLogSerializer(page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+        
+        

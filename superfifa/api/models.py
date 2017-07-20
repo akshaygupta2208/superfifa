@@ -36,6 +36,17 @@ class Chairman(models.Model):
         return self.name
 
 
+class Manager(models.Model):
+    name = models.CharField(max_length=255)
+    rating = models.IntegerField(default=0)
+    team = models.OneToOneField(
+        Team, on_delete=models.SET_NULL, blank=True, null=True)
+    image_url = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 class Scout(models.Model):
     name = models.CharField(max_length=255)
     country = CountryField()
@@ -133,11 +144,6 @@ class News(models.Model):
     def __str__(self):
         return self.title
 
-
-class Chat(models.Model):
-    pass
-
-
 class UserCurrentTrack(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     player_list = models.ManyToManyField(Player)
@@ -165,48 +171,41 @@ class UserCurrentTrack(models.Model):
     journalist_interactions = models.TextField(blank=True, null=True)
     mail_box = models.TextField(blank=True, null=True)
 
-    """
+    def __str__(self):
+        return self.user
+
+class Chat(models.Model):
+    CHAT_TYPE = (
+        ('P', 'PLAYER'),
+        ('C', 'CHAIRMAN'),
+        ('M', 'MANAGER'),
+    )
+    message1 = models.TextField(blank=True, null=True)
+    message2 = models.TextField(blank=True, null=True)
+    message3 = models.TextField(blank=True, null=True)
+    message4 = models.TextField(blank=True, null=True)
+    reply = models.TextField(blank=True, null=True)
+    option1 = models.TextField(blank=True, null=True)
+    option2 = models.TextField(blank=True, null=True)
+    option3 = models.TextField(blank=True, null=True)
+    option4 = models.TextField(blank=True, null=True)
+    type = models.CharField(max_length=2, choices=CHAT_TYPE, blank=True, null=True)
     
-    current_office
-    upagrade_office_list
-    current_scout_list
-    base_commission
-    transfer_commission
-    sponsiorship _commission
-    miscellanious_income
-    miscellanious_expences
-    staff_wage
-    scout_hire_time
-    scout_hire_duration
-    physical_coach_hire_time
-    physical_coach_hire_duration
-    mental_coach_hire_time
-    mental_coach_hire_duration
-    current_week
-    agency_reputation
-    news_feed
-    negotiations
-    journalist_interactions
-    mail_box
-
-
-
-
-
-
-
-
-
-login
-getUserData
-getPlayerList
-releasePlayer
-
-
-
-
-
-
-
-
-"""
+    def __str__(self):
+        return models.Model.__str__(self)
+    
+class ChatLog(models.Model):
+    ACTOR_TYPE = (
+        ('Y', 'YOU'),
+        ('B', 'BOT'),
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    actor = models.CharField(max_length=2, choices=ACTOR_TYPE)
+    date_added = models.DateTimeField(auto_now_add=True, blank=True)
+    player = models.ForeignKey(Player, blank=True, null=True , on_delete=models.CASCADE)
+    chairman = models.ForeignKey(Chairman, blank=True, null=True , on_delete=models.CASCADE)
+    manager = models.ForeignKey(Manager, blank=True, null=True , on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.user.username

@@ -12,3 +12,12 @@ def userLoginService(user_serializer):
 def releasePlayerService(players_crud_serializer):
     player_crud_result = releasePlayerRepository(players_crud_serializer)
     return player_crud_result.data
+
+def ChatLogService(chat_log_serializer):
+    chat_log_serializer.is_valid()
+    chat_log_query_set = chatLogRepository(chat_log_serializer)
+    return chat_log_query_set
+
+def chatService(user_chat_serializer):
+    chat_data = chatRepository(user_chat_serializer)
+    return chat_data.data

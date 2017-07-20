@@ -46,5 +46,7 @@ urlpatterns = [
     url(r'', include(router.get_urls())),
     url(r'user-login', csrf_exempt(UserLoginView.as_view())),
     url(r'release-player$', csrf_exempt(ReleasePlayerView.as_view())),
+    url(r'chat$', csrf_exempt(ChatView.as_view())),
+    url(r'chat-log$', csrf_exempt(ChatLogView.as_view())),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

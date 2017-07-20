@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 
-from serializers import UserSerializer
-from models import UserCurrentTrack
-from serializers import UserPlayerSerializer
+from models import *
+from serializers import *
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 
 def userLoginRepository(user_serializer):
@@ -24,3 +24,18 @@ def releasePlayerRepository(players_crud_serializer):
             if player.id in players_crud_serializer['player_list'].value:
                 user_track.player_list.remove(player)
     return UserPlayerSerializer(user_track)
+
+def chatLogRepository(chat_log_serializer):
+    chat_log = None
+    if chat_log_serializer['type'].value == 'player':
+        chat_log = get_list_or_404(ChatLog,user=chat_log_serializer['user'].value, player=chat_log_serializer['type_id'].value)
+    elif chat_log_serializer['type'].value == 'manager':
+        chat_log = get_list_or_404(ChatLog,user=chat_log_serializer['user'].value, manager=chat_log_serializer['type_id'].value)
+    #elif chat_log_serializer['type'].value == 'chairman':
+    else:
+        chat_log = get_list_or_404(ChatLog,user=chat_log_serializer['user'].value, chairman=chat_log_serializer['type_id'].value)
+    return chat_log
+
+def chatRepository(user_chat_serializer):
+    chat_data = get_object_or_404(Chat,type=user_chat_serializer['type'].value, message1=user_chat_serializer['message1'].value, message2=user_chat_serializer['message2'].value, message3=user_chat_serializer['message3'].value, message4=user_chat_serializer['message4'].value)
+    return BotChatSerializer(chat_data)

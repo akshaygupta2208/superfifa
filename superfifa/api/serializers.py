@@ -101,7 +101,7 @@ class UserPlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserCurrentTrack
-        fields = ('user','player_list',)
+        fields = ('user', 'player_list',)
         
         
 class PlayerCRUDSerializer(serializers.Serializer):
@@ -109,4 +109,27 @@ class PlayerCRUDSerializer(serializers.Serializer):
     player_list = serializers.ListField(required=True)
     
     
+class UserChatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chat
+        fields = ('message1', 'message2', 'message3', 'message4', 'type')
+        
+        
+
+class BotChatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chat
+        fields = ('option1', 'option2', 'option3', 'option4', 'reply')
+        
+    
+class ChatLogSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
+    class Meta:
+        model = ChatLog
+        fields = ('user', 'message', 'actor', 'date_added', 'player', 'chairman', 'manager')
+
+class ChatLogDTOSerializer(serializers.Serializer):
+    user = serializers.IntegerField(required=True)
+    type = serializers.CharField(required=True)
+    type_id = serializers.IntegerField(required=True)
     
