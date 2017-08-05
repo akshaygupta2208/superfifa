@@ -176,7 +176,7 @@ class UserCurrentTrack(models.Model):
     mail_box = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.user
+        return self.user.email
 
 class Chat(models.Model):
     CHAT_TYPE = (
