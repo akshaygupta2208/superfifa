@@ -27,12 +27,12 @@ def releasePlayerRepository(players_crud_serializer):
 
 def chatLogRepository(chat_log_serializer):
     chat_log = None
-    if chat_log_serializer['type'].value == 'player':
+    if chat_log_serializer['type'].value == 'P':
         chat_log = get_list_or_404(ChatLog, user=chat_log_serializer['user'].value, player=chat_log_serializer['type_id'].value)
-    elif chat_log_serializer['type'].value == 'manager':
+    elif chat_log_serializer['type'].value == 'M':
         chat_log = get_list_or_404(ChatLog, user=chat_log_serializer['user'].value, manager=chat_log_serializer['type_id'].value)
     # elif chat_log_serializer['type'].value == 'chairman':
-    else:
+    elif chat_log_serializer['type'].value == 'C':
         chat_log = get_list_or_404(ChatLog, user=chat_log_serializer['user'].value, chairman=chat_log_serializer['type_id'].value)
     return chat_log
 
