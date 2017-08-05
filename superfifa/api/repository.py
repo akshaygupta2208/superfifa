@@ -42,11 +42,8 @@ def save_chat_log(actor, message , user, type, type_id):
     log = ChatLog()
     log.actor = actor
     log.message = message
-    if user.is_anonymous(): 
-        log.user = User.objects.get(pk=3)
-    else:
-        log.user = user
-        
+    log.user = User.objects.get(pk=user)
+    
     if type == 'P':
         log.player = Player.objects.get(pk=type_id)
         

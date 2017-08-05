@@ -156,9 +156,9 @@ class ChatView(APIView):
         request format : 
         {"user":1,"player_list":[1,3,4]}
     """
-    def post(self, request, format=None):
+    def post(self, request,user, format=None):
         user_chat_serializer = UserChatSerializer(request.data)
-        response = chatService(user_chat_serializer, request.user)
+        response = chatService(user_chat_serializer, user)
         return JsonResponse(response)
 
 class ChatLogView(APIView):
@@ -180,3 +180,9 @@ class ChatLogView(APIView):
         return paginator.get_paginated_response(serializer.data)
         
         
+def get_player_list(request,  user_id):
+        print user_id        
+        print UserCurrentTrack.objects.filter(user_id=user_id).get().player_list.all()
+        user_track = UserCurrentTrack.objects.filter(user_id=user_id).get().player_list.all()
+        serializer = PlayerSerializer(user_track)
+        return JsonResponse(serializer.data)
