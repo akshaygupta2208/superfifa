@@ -65,11 +65,13 @@ class OfficeSerializer(serializers.ModelSerializer):
 class PlayerSerializer(serializers.ModelSerializer):
     current_club = TeamSerializer(read_only=True)
     interested_club = TeamSerializer(many=True, read_only=True)
+    country = serializers.ReadOnlyField(source='country.name')
+
 
     class Meta:
         model = Player
         fields = ('id', 'name', 'image_url', 'age', 'current_ability', 'potential_ability', 'overall_ability', 'performance',
-                  'happiness', 'agency', 'current_club', 'interested_club', 'current_contract', 'value')
+                  'happiness', 'agency', 'current_club', 'interested_club', 'current_contract', 'value', 'signing_fee', 'bonus', 'wins', 'flag_url', 'country')
 
 
 class MediaCompanySerializer(serializers.ModelSerializer):
@@ -110,9 +112,14 @@ class PlayerCRUDSerializer(serializers.Serializer):
     
     
 class UserChatSerializer(serializers.ModelSerializer):
+    type_id = serializers.SerializerMethodField()
+    
+    
+    def get_type_id(self, obj):
+        return obj
     class Meta:
         model = Chat
-        fields = ('message1', 'message2', 'message3', 'message4', 'type')
+        fields = ('message1', 'message2', 'message3', 'message4', 'type', 'type_id')
         
         
 

@@ -158,7 +158,7 @@ class ChatView(APIView):
     """
     def post(self, request, format=None):
         user_chat_serializer = UserChatSerializer(request.data)
-        response = chatService(user_chat_serializer)
+        response = chatService(user_chat_serializer, request.user)
         return JsonResponse(response)
 
 class ChatLogView(APIView):
@@ -168,7 +168,7 @@ class ChatLogView(APIView):
         This Api can be used to get chat logs use options to see the api end points
         -------------------
         request format : 
-        {"user":4,"type_id":1, "type":"player"}
+        {"user":3,"type_id":1, "type":"player"}
     """
     def post(self, request, format=None):
         chat_log_serializer = ChatLogDTOSerializer(data = request.data)

@@ -107,7 +107,11 @@ class Player(models.Model):
     current_contract = models.IntegerField(default=0)
     value = models.IntegerField(default=0)
     salary = models.IntegerField(default=0)
-
+    signing_fee= models.IntegerField(default=0)
+    bonus = models.IntegerField(default=0)
+    wins = models.IntegerField(default=0)
+    country = CountryField()
+    flag_url = models.CharField(max_length=255)
     def __str__(self):
         return self.name
 
@@ -209,3 +213,6 @@ class ChatLog(models.Model):
     
     def __str__(self):
         return self.user.username
+    
+    class Meta:
+        ordering = ['-date_added']
