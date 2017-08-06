@@ -48,6 +48,6 @@ urlpatterns = [
     url(r'release-player$', csrf_exempt(ReleasePlayerView.as_view())),
     url(r'chat/(?P<user>[a-zA-Z0-9\w]+)$', csrf_exempt(ChatView.as_view())),
     url(r'chat-log$', csrf_exempt(ChatLogView.as_view())),
-    url(r'player-list/(\d+)$', get_player_list),
+    url(r'player-list/(\d+)/$', get_player_list),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

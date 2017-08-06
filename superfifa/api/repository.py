@@ -5,16 +5,31 @@ from serializers import *
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 
+def add_dummy_players(user):
+    user_track = UserCurrentTrack()
+    user_track.user=user
+    user_track.save()
+    player_list = Player.objects.all()
+    for player in player_list:
+        user_track.player_list.add(player)
+    user_track.save()
+    pass
+
+
+
 def userLoginRepository(user_serializer):
     print(user_serializer["username"].value)
     user = User.objects.filter(username=user_serializer['username'].value, email=user_serializer['email'].value)
     if not user:
         new_user = UserSerializer(data=user_serializer.data)
-        new_user.is_valid(raise_exception=True)
-            
+        new_user.is_valid(raise_exception=True)        
         user = new_user.save()
+        add_dummy_players(user)
     else:
         user = user.get()
+        
+        
+    
     return UserSerializer(user)
 
 def releasePlayerRepository(players_crud_serializer):
