@@ -39,7 +39,7 @@ router.register(r'journalist', JournalistViewSet,
 router.register(r'news', NewsViewSet,
                 base_name='news')
 #router.register(r'player-list/(\d+)/$', UserPlayerListViewSet, base_name='user-player-list')
-router.register(r'player-list', UserPlayerListViewSet, base_name='user-player-list')
+#router.register(r'player-list', UserPlayerListViewSet, base_name='user-player-list')
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.
 urlpatterns = [
@@ -48,6 +48,6 @@ urlpatterns = [
     url(r'release-player$', csrf_exempt(ReleasePlayerView.as_view())),
     url(r'chat/(?P<user>[a-zA-Z0-9\w]+)$', csrf_exempt(ChatView.as_view())),
     url(r'chat-log$', csrf_exempt(ChatLogView.as_view())),
-    url(r'player-list1/(\d+)$', get_player_list),
+    url(r'player-list/(\d+)$', get_player_list),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

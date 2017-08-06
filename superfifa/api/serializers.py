@@ -103,7 +103,7 @@ class UserPlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserCurrentTrack
-        fields = ('user', 'player_list',)
+        fields = ( 'player_list',)
         
         
 class PlayerCRUDSerializer(serializers.Serializer):

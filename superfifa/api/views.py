@@ -180,9 +180,8 @@ class ChatLogView(APIView):
         return paginator.get_paginated_response(serializer.data)
         
         
-def get_player_list(request,  user_id):
-        print user_id        
-        print UserCurrentTrack.objects.filter(user_id=user_id).get().player_list.all()
-        user_track = UserCurrentTrack.objects.filter(user_id=user_id).get().player_list.all()
-        serializer = PlayerSerializer(user_track)
-        return JsonResponse(serializer.data)
+def get_player_list(request,  user_id):     
+        user_track = get_list_or_404(UserCurrentTrack, user_id=user_id)
+        #user_track = UserCurrentTrack.objects.filter(user_id=user_id).get().player_list.all()
+        serializer = UserPlayerSerializer(user_track, many=True)
+        return JsonResponse(serializer.data , safe=False)
