@@ -17,15 +17,23 @@ class ChairmanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chairman
         fields = ('id', 'name', 'rating', 'image_url')
+        
+class ManagerSerializer(serializers.ModelSerializer):
+#    team = TeamSerializer(read_only=True)
+
+    class Meta:
+        model = Manager
+        fields = ('id', 'name', 'rating', 'image_url')
 
 class TeamSerializer(serializers.ModelSerializer):
     league = serializers.ReadOnlyField(source='league.name')
     country = serializers.ReadOnlyField(source='country.name')
     chairman = ChairmanSerializer(read_only=True)
+    manager = ManagerSerializer(read_only=True)
     class Meta:
         model = Team
         fields = ('id', 'name', 'rating', 'image_url',
-                  'country', 'league', 'chairman')
+                  'country', 'league', 'chairman', 'manager')
 
 
 class LeagueSerializer(serializers.ModelSerializer):
