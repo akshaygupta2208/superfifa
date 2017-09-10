@@ -18,6 +18,6 @@ def ChatLogService(chat_log_serializer):
     chat_log_query_set = chatLogRepository(chat_log_serializer)
     return chat_log_query_set
 
-def chatService(user_chat_serializer, user):
-    chat_data = chatRepository(user_chat_serializer, user)
+def chatService(user_chat_serializer, user, mode):
+    chat_data = chatRepository(user_chat_serializer, user, mode)
     return chat_data.data

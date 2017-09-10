@@ -156,9 +156,9 @@ class ChatView(APIView):
         request format : 
         {"user":1,"player_list":[1,3,4]}
     """
-    def post(self, request,user, format=None):
+    def post(self, request,user,mode, format=None):
         user_chat_serializer = UserChatSerializer(request.data)
-        response = chatService(user_chat_serializer, user)
+        response = chatService(user_chat_serializer, user, mode)
         return JsonResponse(response)
 
 class ChatLogView(APIView):
